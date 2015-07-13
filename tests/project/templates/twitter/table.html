@@ -1,0 +1,20 @@
+{% load endless %}
+
+{% paginate 5 objects %}
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Content</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for object in objects %}
+    <tr>
+      <td>{{ object.title }}</td>
+      <td>{{ object.contents }}</td>
+    </tr>
+  {% endfor %}
+  {% show_more_table "More results" %}
+  </tbody>
+</table>

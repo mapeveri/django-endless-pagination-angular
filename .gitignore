@@ -1,0 +1,9 @@
+*.pyc
+*.mo
+migrations
+/staticfiles/
+/static/
+*.sqlite3
+/build/
+/dist/
+/django-endless-pagination-angular.egg-info/
