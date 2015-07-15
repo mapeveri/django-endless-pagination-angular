@@ -27,7 +27,7 @@ App.directive('endlessPagination', function() {
             paginateOnScrollChunkSize: 0
         },
 
-        settings = angular.extend(defaults, eval('(' + attrs.endlessPagination + ')'));
+        settings = angular.extend(defaults, (attrs.endlessPagination ? eval('(' + attrs.endlessPagination + ')') : ""));
 
         var getContext = function(link) {
             return {

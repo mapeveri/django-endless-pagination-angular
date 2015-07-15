@@ -1,14 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="endless_page_template span12">
+  <div class="endless_page_template span12" endless-pagination>
     {% include page_template %}
   </div>
-{% endblock %}
-
-{% block js %}
-  {{ block.super }}
-  <script>
-    $.endlessPaginate();
-  </script>
 {% endblock %}
