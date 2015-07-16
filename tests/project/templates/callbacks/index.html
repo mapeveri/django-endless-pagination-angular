@@ -1,7 +1,7 @@
-{% extends "base.html" %}
+{% extends "base_callbacks.html" %}
 
 {% block content %}
-  <div id="endless" class="span8">
+  <div id="endless" class="span8" endless-pagination="{'pageSelector': '#endless', 'onClick': 'callbacks_click', 'onCompleted': 'callbacks_completed' }">
     {% include page_template %}
   </div>
   <div class="span4">
@@ -10,42 +10,6 @@
       <div id="notifications">None so far...</div>
     </div>
   </div>
+
 {% endblock %}
 
-{% block js %}
-  {{ block.super }}
-  <script>
-    // Get a reference of the notifications element.
-    var notifications = $('#notifications');
-
-    // Add a notification: the element containing the value will have *id*.
-    var notify = function(id, key, value) {
-      var key_element = $('<strong />').html(key + ': ');
-      var value_element = $('<span />').attr('id', id).html(value);
-      var notification = $('<p />').append(key_element).append(value_element);
-      notifications.append(notification);
-    };
-
-    // Paginate!
-    $.endlessPaginate({
-      onClick: function(context) {
-        notifications.html('');
-        notify('onclick', 'First object on click', $('#endless h4').html());
-        notify('onclick-label', 'Clicked label', $(this).text());
-        notify('onclick-url', 'URL', context.url);
-        notify('onclick-key', 'Querystring key', context.key);
-      },
-      onCompleted: function(context, fragment) {
-        notify(
-          'oncompleted', 'First object on completed', $('#endless h4').html());
-        notify('oncompleted-label', 'Clicked label', $(this).text());
-        notify('oncompleted-url', 'URL', context.url);
-        notify('oncompleted-key', 'Querystring key', context.key);
-        notify(
-          'fragment', 'Last object in fragment',
-          $(fragment).find('h4').last().html());
-      },
-      pageSelector: '#endless'
-    });
-  </script>
-{% endblock %}

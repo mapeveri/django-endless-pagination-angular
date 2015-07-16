@@ -6,7 +6,7 @@
     <link href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.1.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ STATIC_URL }}pagination.css" rel="stylesheet">
   </head>
-  <body ng-app="EndlessPagination">
+  <body ng-app="TestApp" ng-controller="TestController">
     <div class="container">
       <dl class="dl-horizontal pull-right">
         {% for name, value in versions %}
@@ -41,6 +41,7 @@
       <script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.1.1/bootstrap.min.js"></script>
       <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
       <script src="{{ STATIC_URL }}endless_pagination/js/module.endless.js"></script>
+      <script src="{{ STATIC_URL }}endless_pagination/js/module.test.js"></script>
     {% endblock %}
   </body>
 </html>
