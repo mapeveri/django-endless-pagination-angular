@@ -7,7 +7,7 @@ Requirements
 ======  ====================
 Python  >= 2.6 (or Python 3)
 Django  >= 1.3
-jQuery  >= 1.7
+Angular  >= 1.x
 ======  ====================
 
 Installation
@@ -15,17 +15,12 @@ Installation
 
 The Git repository can be cloned with this command::
 
-    git clone https://github.com/frankban/django-endless-pagination.git
-
-If you like Mercurial, you can clone the application with this command::
-
-    hg clone https://bitbucket.org/frankban/django-endless-pagination
+    git clone https://github.com/mapeveri/django-endless-pagination-angular.git
 
 The ``endless_pagination`` package, included in the distribution, should be
 placed on the ``PYTHONPATH``.
 
-Otherwise you can just ``easy_install -Z django-endless-pagination``
-or ``pip install django-endless-pagination``.
+Via pip ``pip install django-endless-pagination-angular``.
 
 Settings
 ~~~~~~~~
@@ -67,5 +62,5 @@ you can use Digg-style pagination to display objects just by adding:
 Done.
 
 This is just a basic example. To continue exploring all the Django Endless
-Pagination features, have a look at :doc:`twitter_pagination` or
+Pagination Angular features, have a look at :doc:`twitter_pagination` or
 :doc:`digg_pagination`.

@@ -10,30 +10,29 @@ important for :doc:`twitter_pagination` and
 Activating Ajax support
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Ajax support is activated linking jQuery and the ``endless-pagination.js`` file
-included in this app. It is then possible to use the *$.endlessPaginate()*
-jQuery plugin to enable Ajax pagination, e.g.:
+Ajax support is activated linking Angular.js and the directive ``endless-pagination``:
 
 .. code-block:: html+django
 
-    <h2>Entries:</h2>
-    <div class="endless_page_template">
-        {% include page_template %}
-    </div>
+    <body ng-app="EndlessPagination">
+        <h2>Entries:</h2>
+        <div class="endless_page_template" endless-pagination>
+            {% include page_template %}
+        </div>
 
-    {% block js %}
-        {{ block.super }}
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
-        <script>$.endlessPaginate();</script>
-    {% endblock %}
+        {% block js %}
+            {{ block.super }}
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+            <script src="{{ STATIC_URL }}endless_pagination/js/module.endless.js"></script>
+        {% endblock %}
+    </body>
 
 This example assumes that you
 :ref:`separated the fragment<twitter-split-template>` containing the single
 page (*page_tempate*) from the main template (the code snipper above). More on
 this in :doc:`twitter_pagination` and :doc:`digg_pagination`.
 
-The *$.endlessPaginate()* call activates Ajax for each pagination present in
+The directive *endless-pagination* call activates Ajax for each pagination present in
 the page.
 
 .. _javascript-pagination-on-scroll:
@@ -43,21 +42,21 @@ Pagination on scroll
 
 If you want new items to load when the user scrolls down the browser page,
 you can use the **pagination on scroll** feature: just set the
-*paginateOnScroll* option of *$.endlessPaginate()* to *true*, e.g.:
+*paginateOnScroll* option of the directive *endless-pagination* to *true*, e.g.:
 
 .. code-block:: html+django
 
-    <h2>Entries:</h2>
-    <div class="endless_page_template">
-        {% include page_template %}
-    </div>
+    <body ng-app="EndlessPagination">
+        <h2>Entries:</h2>
+        <div class="endless_page_template" endless-pagination="{ 'paginateOnScroll': true }">
+            {% include page_template %}
+        </div>
 
-    {% block js %}
-        {{ block.super }}
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
-        <script>$.endlessPaginate({paginateOnScroll: true});</script>
-    {% endblock %}
+        {% block js %}
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+            <script src="{{ STATIC_URL }}endless_pagination/js/module.endless.js"></script>
+        {% endblock %}
+    </body>
 
 That's all. See the :doc:`templatetags_reference` page to improve usage of
 the included templatetags.
@@ -68,28 +67,23 @@ to be activated when 20 pixels remain to the end of the page:
 
 .. code-block:: html+django
 
-    <h2>Entries:</h2>
-    <div class="endless_page_template">
-        {% include page_template %}
-    </div>
+    <body ng-app="EndlessPagination">
+        <h2>Entries:</h2>
+        <div class="endless_page_template" endless-pagination="{ 'paginateOnScroll': true, 'paginateOnScrollMargin':  20}">
+            {% include page_template %}
+        </div>
 
-    {% block js %}
-        {{ block.super }}
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
-        <script>
-            $.endlessPaginate({
-                paginateOnScroll: true,
-                paginateOnScrollMargin: 20
-            });
-        </script>
-    {% endblock %}
+        {% block js %}
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+            <script src="{{ STATIC_URL }}endless_pagination/js/module.endless.js"></script>
+        {% endblock %}
+    </body>
 
 Attaching callbacks
 ~~~~~~~~~~~~~~~~~~~
 
 It is possible to customize the behavior of JavaScript pagination by attaching
-callbacks to *$.endlessPaginate()*, called when the following events are fired:
+callbacks to *endless-pagination*, called when the following events are fired:
 
 - *onClick*: the user clicks on a page link;
 - *onCompleted*: the new page is fully loaded and inserted in the DOM.
@@ -100,23 +94,24 @@ link, e.g.:
 
 .. code-block:: html+django
 
-    <h2>Entries:</h2>
-    <div class="endless_page_template">
-        {% include page_template %}
-    </div>
+    <body ng-app="TestApp" ng-controller="TestController">
+        <h2>Entries:</h2>
+        <div class="endless_page_template" endless-pagination="{ 'onclick': 'callbacks_click' }">
+            {% include page_template %}
+        </div>
 
-    {% block js %}
-        {{ block.super }}
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
-        <script>
-            $.endlessPaginate({
-                onClick: function() {
-                    console.log('Label:', $(this).text());
-                }
-            });
-        </script>
-    {% endblock %}
+        {% block js %}
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+            <script src="{{ STATIC_URL }}endless_pagination/js/module.endless.js"></script>
+            <script src="{{ STATIC_URL }}mymodules_angular/module.test.js"></script>
+        {% endblock %}
+    </body>
+
+*callbacks_click* is function declared in your module.
+
+Example de module.test.js: https://github.com/mapeveri/django-endless-pagination-angular/blob/master/tests/project/static/endless_pagination/js/module.test.js
+
+This module is inserted the module EndlessPagination and inherited the directive endless-pagination.
 
 Both callbacks also receive a *context* argument containing information about
 the requested page:
@@ -136,119 +131,52 @@ To wrap it up, here is an example showing the callbacks' signatures:
 .. code-block:: html+django
 
     <h2>Entries:</h2>
-    <div class="endless_page_template">
+     <div id="endless" class="span8" endless-pagination="{'pageSelector': '#endless', 'onClick': 'callbacks_click', 'onCompleted': 'callbacks_completed' }">
         {% include page_template %}
-    </div>
+      </div>
 
     {% block js %}
-        {{ block.super }}
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
-        <script>
-            $.endlessPaginate({
-                onClick: function(context) {
-                    console.log('Label:', $(this).text());
-                    console.log('URL:', context.url);
-                    console.log('Querystring key:', context.key);
-                    if (forbidden) {  // to be defined...
-                        return false;
-                    }
-                },
-                onCompleted: function(context, fragment) {
-                    console.log('Label:', $(this).text());
-                    console.log('URL:', context.url);
-                    console.log('Querystring key:', context.key);
-                    console.log('Fragment:', fragment);
-                }
-            });
-        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+        <script src="{{ STATIC_URL }}endless_pagination/js/module.endless.js"></script>
+        <script src="{{ STATIC_URL }}mymodules_angular/module.test.js"></script>
     {% endblock %}
+
+*callbacks_click* and *callbacks_completed* the functions declared in your module.
+
+Like the previous example, the functions are declared in your module (In this example *module.test.js*.
+
+Again check: https://github.com/mapeveri/django-endless-pagination-angular/blob/master/tests/project/static/endless_pagination/js/module.test.js
 
 Manually selecting what to bind
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-As seen above, *$.endlessPaginate()* enables Ajax support for each pagination
+As seen above, the directive *endless-pagination* enables Ajax support for each pagination
 in the page. But assuming you are using :doc:`multiple_pagination`, e.g.:
 
 .. code-block:: html+django
 
     <h2>Entries:</h2>
-    <div id="entries" class="endless_page_template">
+    <div id="entries" class="endless_page_template" endless-pagination>
         {% include "myapp/entries_page.html" %}
     </div>
 
     <h2>Other entries:</h2>
-    <div id="other-entries" class="endless_page_template">
+    <div id="other-entries" class="endless_page_template" endless-pagination>
         {% include "myapp/other_entries_page.html" %}
     </div>
 
     {% block js %}
-        {{ block.super }}
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
-        <script>$.endlessPaginate();</script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+        <script src="{{ STATIC_URL }}endless_pagination/js/module.endless.js"></script>
     {% endblock %}
 
 What if you need Ajax pagination only for *entries* and not for
-*other entries*? You can do this in a straightforward way using jQuery
-selectors, e.g.:
-
-.. code-block:: html+django
-
-    {% block js %}
-        {{ block.super }}
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
-        <script>$('#entries').endlessPaginate();</script>
-    {% endblock %}
-
-The call to *$('#entries').endlessPaginate()* applies Ajax pagination starting
-from the DOM node with id *entries* and to all sub-nodes. This means that
-*other entries* are left intact. Of course you can use any selector supported
-by jQuery.
-
-At this point, you might have already guessed that *$.endlessPaginate()*
-is just an alias for *$('body').endlessPaginate()*.
-
-Customize each pagination
-~~~~~~~~~~~~~~~~~~~~~~~~~
-
-You can also call *$.endlessPaginate()* multiple times if you want to customize
-the behavior of each pagination. E.g. if you need to register a callback for
-*entries* but not for *other entries*:
-
-.. code-block:: html+django
-
-    <h2>Entries:</h2>
-    <div id="entries" class="endless_page_template">
-        {% include "myapp/entries_page.html" %}
-    </div>
-
-    <h2>Other entries:</h2>
-    <div id="other-entries" class="endless_page_template">
-        {% include "myapp/other_entries_page.html" %}
-    </div>
-
-    {% block js %}
-        {{ block.super }}
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
-        <script>
-            $('#entries').endlessPaginate({
-                onCompleted: function(data) {
-                    console.log('New entries loaded.');
-                }
-            });
-            $('#other-entries').endlessPaginate();
-        </script>
-    {% endblock %}
-
-.. _javascript-selectors:
+*other entries*? You can do add the directive only for *entries*.
 
 Selectors
 ~~~~~~~~~
 
-Each time *$.endlessPaginate()* is used, several JavaScript selectors are used
+Each time *endless-pagination* is used, several JavaScript selectors are used
 to select DOM nodes. Here is a list of them all:
 
 - containerSelector: '.endless_container'
@@ -267,19 +195,17 @@ have a Digg-style pagination like the following:
 
 .. code-block:: html+django
 
-    <h2>Entries:</h2>
-    <div id="entries" class="endless_page_template">
-        {% include "myapp/entries_page.html" %}
-    </div>
+    <body ng-app="EndlessPagination">
+        <h2>Entries:</h2>
+        <div id="entries" class="endless_page_template" endless-pagination>
+            {% include "myapp/entries_page.html" %}
+        </div>
 
-    {% block js %}
-        {{ block.super }}
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
-        <script>
-            $('#entries').endlessPaginate();
-        </script>
-    {% endblock %}
+        {% block js %}
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+            <script src="{{ STATIC_URL }}endless_pagination/js/module.endless.js"></script>
+        {% endblock %}
+    </body>
 
 Here the ``#entries`` node is selected and Digg-style pagination is applied.
 Digg-style needs to know which DOM node will be updated with new contents,
@@ -291,19 +217,13 @@ and does not involve adding another class to the container:
 .. code-block:: html+django
 
     <h2>Entries:</h2>
-    <div id="entries">
+    <div id="entries" endless-pagination="{ 'pageSelector': '#entries' }">
         {% include "myapp/entries_page.html" %}
     </div>
 
     {% block js %}
-        {{ block.super }}
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
-        <script>
-            $('#entries').endlessPaginate({
-                pageSelector: '#entries'
-            });
-        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+        <script src="{{ STATIC_URL }}endless_pagination/js/module.endless.js"></script>
     {% endblock %}
 
 .. _javascript-chunks:
@@ -312,7 +232,7 @@ On scroll pagination using chunks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Sometimes, when using on scroll pagination, you may want to still display
-the *show more* link after each *N* pages. In Django Endless Pagination this is
+the *show more* link after each *N* pages. In Django Endless Pagination Angular this is
 called *chunk size*. For instance, a chunk size of 5 means that a *show more*
 link is displayed after page 5 is loaded, then after page 10, then after page
 15 and so on. Activating this functionality is straightforward, just use the
@@ -320,32 +240,19 @@ link is displayed after page 5 is loaded, then after page 10, then after page
 
 .. code-block:: html+django
 
+    <div endless-pagination="{'paginateOnScroll': true, 'paginateOnScrollChunkSize': 5}"></div>
+
     {% block js %}
-        {{ block.super }}
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
-        <script>
-            $.endlessPaginate({
-                paginateOnScroll: true,
-                paginateOnScrollChunkSize: 5
-            });
-        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+        <script src="{{ STATIC_URL }}endless_pagination/js/module.endless.js"></script>
     {% endblock %}
 
 .. _javascript-migrate:
 
-Migrate from version 1.1 to 2.0
+Migrate from Django-endless-pagination to Django-endless-pagination-angular
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Django Endless Pagination v2.0 introduces changes in how Ajax pagination
-is handled by JavaScript. These changes are discussed in this document and in
-the :doc:`changelog`.
-
-The JavaScript code now lives in a file named ``endless-pagination.js``.
-For backward compatibility, the application still includes the two JavaScript
-files ``endless.js`` and ``endless_on_scroll.js``. However, please consider
-migrating as soon as possible: the old JavaScript files are deprecated, are
-no longer maintained, and don't provide the new JavaScript features.
+Django Endless Pagination Angular introduces only angular.js and remove jquery.
 
 Instructions on how to migrate from the old version to the new one follow.
 
@@ -362,41 +269,30 @@ Before:
     {% block js %}
         {{ block.super }}
         <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="{{ STATIC_URL }}endless_pagination/js/endless.js"></script>
+        <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
+        <script>$.endlessPaginate();</script>
     {% endblock %}
 
 Now:
 
 .. code-block:: html+django
 
-    <h2>Entries:</h2>
-    {% include page_template %}
+    <body ng-app="EndlessPagination">
+        <h2>Entries:</h2>
+        <div endless-pagination>
+            {% include page_template %}
+        </div>
 
-    {% block js %}
-        {{ block.super }}
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
-        <script>$.endlessPaginate();</script>
-    {% endblock %}
+        {% block js %}
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+            <script src="{{ STATIC_URL }}endless_pagination/js/module.endless.js"></script>
+        {% endblock %}
+    </body>
 
 Pagination on scroll
 --------------------
 
 Before:
-
-.. code-block:: html+django
-
-    <h2>Entries:</h2>
-    {% include page_template %}
-
-    {% block js %}
-        {{ block.super }}
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="{{ STATIC_URL }}endless_pagination/js/endless.js"></script>
-        <script src="{{ STATIC_URL }}endless_pagination/js/endless_on_scroll.js"></script>
-    {% endblock %}
-
-Now:
 
 .. code-block:: html+django
 
@@ -412,27 +308,26 @@ Now:
         </script>
     {% endblock %}
 
+Now:
+
+.. code-block:: html+django
+
+    <body ng-app="EndlessPagination">
+        <h2>Entries:</h2>
+        <div endless-pagination="{'paginateOnScroll': true}">
+            {% include page_template %}
+        </div>
+
+        {% block js %}
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+            <script src="{{ STATIC_URL }}endless_pagination/js/module.endless.js"></script>
+        {% endblock %}
+    </body>
+
 Pagination on scroll with customized bottom margin
 --------------------------------------------------
 
 Before:
-
-.. code-block:: html+django
-
-    <h2>Entries:</h2>
-    {% include page_template %}
-
-    {% block js %}
-        {{ block.super }}
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="{{ STATIC_URL }}endless_pagination/js/endless.js"></script>
-        <script src="{{ STATIC_URL }}endless_pagination/js/endless_on_scroll.js"></script>
-        <script>
-            var endless_on_scroll_margin = 20;
-        </script>
-    {% endblock %}
-
-Now:
 
 .. code-block:: html+django
 
@@ -451,6 +346,22 @@ Now:
         </script>
     {% endblock %}
 
+Now:
+
+.. code-block:: html+django
+
+    <body ng-app="EndlessPagination">
+        <h2>Entries:</h2>
+        <div endeless-pagination="{'paginateOnScroll': true, 'paginateOnScrollMargin': 20}">
+            {% include page_template %}
+        </div>
+
+        {% block js %}
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+            <script src="{{ STATIC_URL }}endless_pagination/js/module.endless.js"></script>
+        {% endblock %}
+    </body>
+
 
 Avoid enabling Ajax on one or more paginations
 ----------------------------------------------
@@ -467,24 +378,24 @@ Before:
     {% block js %}
         {{ block.super }}
         <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="{{ STATIC_URL }}endless_pagination/js/endless.js"></script>
+        <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
+        <script>$('not:(.endless_page_skip)').endlessPaginate();</script>
     {% endblock %}
 
 Now:
 
 .. code-block:: html+django
 
-    <h2>Other entries:</h2>
-    <div class="endless_page_template endless_page_skip">
-        {% include "myapp/other_entries_page.html" %}
-    </div>
+    <body ng-app="EndlessPagination">
+        <h2>Other entries:</h2>
+        <div class="endless_page_template endless_page_skip" endless-pagination>
+            {% include "myapp/other_entries_page.html" %}
+        </div>
 
-    {% block js %}
-        {{ block.super }}
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
-        <script>$('not:(.endless_page_skip)').endlessPaginate();</script>
-    {% endblock %}
+        {% block js %}
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+            <script src="{{ STATIC_URL }}endless_pagination/js/module.endless.js"></script>
+        {% endblock %}
+    </body>
 
-In this last example, activating Ajax just where you want might be preferred
-over excluding nodes.
+In this last example, only add the directive in where the desired pagination.

@@ -64,25 +64,24 @@ seen in :ref:`Digg-style pagination and Ajax<digg-ajax>`.
 
 .. code-block:: html+django
 
-    <h2>Entries:</h2>
-    <div class="endless_page_template">
-        {% include "myapp/entries_page.html" %}
-    </div>
+    <body ng-app="EndlessPagination">
+        <h2>Entries:</h2>
+        <div class="endless_page_template" endless-pagination>
+            {% include "myapp/entries_page.html" %}
+        </div>
 
-    <h2>Other entries:</h2>
-    <div class="endless_page_template">
-        {% include "myapp/other_entries_page.html" %}
-    </div>
+        <h2>Other entries:</h2>
+        <div class="endless_page_template" endless-pagination>
+            {% include "myapp/other_entries_page.html" %}
+        </div>
 
-    {% block js %}
-        {{ block.super }}
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
-        <script>$.endlessPaginate();</script>
-    {% endblock %}
+        {% block js %}
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+            <script src="{{ STATIC_URL }}endless_pagination/js/module.endless.js"></script>
+        {% endblock %}
+    </body>
 
-See the :doc:`javascript` for further details on how to use the included
-jQuery plugin.
+See the :doc:`javascript` for further details on how to use the directive of Angular.js.
 
 *myapp/entries_page.html*:
 
@@ -168,23 +167,15 @@ Manually selecting what to bind
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 What if you need Ajax pagination only for *entries* and not for
-*other entries*? You can do this in a straightforward way using jQuery
-selectors, e.g.:
+*other entries*? You can do this added this directive *endless-pagination* where is necessary.
 
 .. code-block:: html+django
 
     {% block js %}
-        {{ block.super }}
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
-        <script>$('#entries').endlessPaginate();</script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+        <script src="{{ STATIC_URL }}endless_pagination/js/module.endless.js"></script>
     {% endblock %}
 
-The call to *$('#entries').endlessPaginate()* applies Ajax pagination starting
+The call to directive *endless-pagination* applies Ajax pagination starting
 from the DOM node with id *entries* and to all sub-nodes. This means that
-*other entries* are left intact. Of course you can use any selector supported
-by jQuery.
-
-Refer to the :doc:`javascript` for an explanation of other features like
-calling *$.endlessPaginate()* multiple times in order to customize the behavior
-of each pagination in a multiple pagination view.
+*other entries* are left intact.

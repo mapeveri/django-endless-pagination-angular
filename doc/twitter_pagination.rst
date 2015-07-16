@@ -122,15 +122,17 @@ jQuery plugin ``endless-pagination.js`` included in the distribution under
 
 .. code-block:: html+django
 
-    <h2>Entries:</h2>
-    {% include page_template %}
+    <body ng-app="EndlessPagination">
+        <h2>Entries:</h2>
+        <div endles-pagination>
+            {% include page_template %}
+        </div>
 
-    {% block js %}
-        {{ block.super }}
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
-        <script>$.endlessPaginate();</script>
-    {% endblock %}
+        {% block js %}
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+            <script src="{{ STATIC_URL }}endless_pagination/js/module.endless.js"></script>
+        {% endblock %}
+    </body>
 
 *myapp/entry_index_page.html* becomes:
 
@@ -155,27 +157,29 @@ The :ref:`templatetags-show-more` one displays the link to navigate to the next
 page.
 
 You might want to glance at the :doc:`javascript` for a detailed explanation of
-how to integrate JavaScript and Ajax features in Django Endless Pagination.
+how to integrate JavaScript and Ajax features in Django Endless Pagination Angular.
 
 Pagination on scroll
 ~~~~~~~~~~~~~~~~~~~~
 
 If you want new items to load when the user scroll down the browser page,
 you can use the :ref:`pagination on scroll<javascript-pagination-on-scroll>`
-feature: just set the *paginateOnScroll* option of *$.endlessPaginate()* to
+feature: just set the *paginateOnScroll* option of the directive *endless-pagination* to
 *true*, e.g.:
 
 .. code-block:: html+django
 
-    <h2>Entries:</h2>
-    {% include page_template %}
+    <body ng-app="EndlessPagination">
+        <h2>Entries:</h2>
+        <div endless-pagination="{'paginateOnScroll': true}"
+        {% include page_template %}
+        </div>
 
-    {% block js %}
-        {{ block.super }}
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
-        <script>$.endlessPaginate({paginateOnScroll: true});</script>
-    {% endblock %}
+        {% block js %}
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+            <script src="{{ STATIC_URL }}endless_pagination/js/module.endless.js"></script>
+        {% endblock %}
+    </body>
 
 That's all. See the :doc:`templatetags_reference` to improve the use of
 included templatetags.
@@ -187,20 +191,17 @@ pixel). For example, if you want the pagination on scroll to be activated when
 
 .. code-block:: html+django
 
-    <h2>Entries:</h2>
-    {% include page_template %}
+    <body ng-app="EndlessPagination">
+        <h2>Entries:</h2>
+        <div endless-pagination="{'paginateOnScroll': true, 'paginateOnScrollMargin': 20}"
+        {% include page_template %}
+        </div>
 
-    {% block js %}
-        {{ block.super }}
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
-        <script>
-            $.endlessPaginate({
-                paginateOnScroll: true,
-                paginateOnScrollMargin: 20
-            });
-        </script>
-    {% endblock %}
+        {% block js %}
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+            <script src="{{ STATIC_URL }}endless_pagination/js/module.endless.js"></script>
+        {% endblock %}
+    </body>
 
 Again, see the :doc:`javascript`.
 
@@ -208,7 +209,7 @@ On scroll pagination using chunks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Sometimes, when using on scroll pagination, you may want to still display
-the *show more* link after each *N* pages. In Django Endless Pagination this is
+the *show more* link after each *N* pages. In Django Endless Pagination Angular this is
 called *chunk size*. For instance, a chunk size of 5 means that a *show more*
 link is displayed after page 5 is loaded, then after page 10, then after page
 15 and so on. Activating :ref:`chunks<javascript-chunks>` is straightforward,
@@ -216,50 +217,14 @@ just use the *paginateOnScrollChunkSize* option:
 
 .. code-block:: html+django
 
-    {% block js %}
-        {{ block.super }}
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
-        <script>
-            $.endlessPaginate({
-                paginateOnScroll: true,
-                paginateOnScrollChunkSize: 5
-            });
-        </script>
-    {% endblock %}
+    <body ng-app="EndlessPagination">
+        <h2>Entries:</h2>
+        <div endless-pagination="{'paginateOnScroll': true, 'paginateOnScrollChunkSize': 5}"
+        {% include page_template %}
+        </div>
 
-Before version 2.0
-~~~~~~~~~~~~~~~~~~
-
-Django Endless Pagination v2.0 introduces a redesigned Ajax support for
-pagination. As seen above, Ajax can now be enabled using a brand new jQuery
-plugin that can be found in
-``static/endless_pagination/js/endless-pagination.js``.
-
-For backward compatibility, the application still includes the two JavaScript
-files ``endless.js`` and ``endless_on_scroll.js`` that were used before, so
-that it is still possible to use code like this:
-
-.. code-block:: html+django
-
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
-    {# Deprecated. #}
-    <script src="{{ STATIC_URL }}endless_pagination/js/endless.js"></script>
-
-To enable pagination on scroll, the code was the following:
-
-.. code-block:: html+django
-
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
-    {# Deprecated. #}
-    <script src="{{ STATIC_URL }}endless_pagination/js/endless.js"></script>
-    <script src="{{ STATIC_URL }}endless_pagination/js/endless_on_scroll.js"></script>
-
-However, please consider :ref:`migrating<javascript-migrate>` as soon as
-possible: the old JavaScript files are deprecated, are no longer maintained,
-and don't provide the new JavaScript features. Also note that the old
-Javascript files will not work if jQuery >= 1.9 is used.
-
-Please refer to the :doc:`javascript` for a detailed overview of the new
-features and for instructions on :ref:`how to migrate<javascript-migrate>` from
-the old JavaScript files to the new one.
+        {% block js %}
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+            <script src="{{ STATIC_URL }}endless_pagination/js/module.endless.js"></script>
+        {% endblock %}
+    </body>

@@ -1,12 +1,12 @@
-"""Django Endless Pagination documentation build configuration file."""
+"""Django Endless Pagination Angular documentation build configuration file."""
 
 from __future__ import unicode_literals
 
 
-AUTHOR = 'Francesco Banconi'
-APP = 'Django Endless Pagination'
+AUTHOR = 'Francesco Banconi and Martin Peveri'
+APP = 'Django Endless Pagination Angular'
 TITLE = APP + ' Documentation'
-VERSION = '2.0'
+VERSION = '1.0'
 
 
 # Add any Sphinx extension module names here, as strings. They can be
@@ -24,7 +24,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = APP
-copyright = '2009-2013, ' + AUTHOR
+copyright = '2009-2015, ' + AUTHOR
 
 # The short X.Y version.
 version = release = VERSION

@@ -124,17 +124,17 @@ class named *endless_page_template*.
 
 .. code-block:: html+django
 
-    <h2>Entries:</h2>
-    <div class="endless_page_template">
-        {% include page_template %}
-    </div>
+    <body ng-app="EndlessPagination">
+        <h2>Entries:</h2>
+        <div class="endless_page_template" endless-pagination>
+            {% include page_template %}
+        </div>
 
-    {% block js %}
-        {{ block.super }}
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
-        <script>$.endlessPaginate();</script>
-    {% endblock %}
+        {% block js %}
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+            <script src="{{ STATIC_URL }}endless_pagination/js/module.endless.js"></script>
+        {% endblock %}
+    </body>
 
 *myapp/entry_index_page.html* becomes:
 
@@ -153,21 +153,21 @@ Done.
 It is possible to manually
 :ref:`override the container selector<javascript-selectors>` used by
 *$.endlessPaginate()* to update the page contents. This can be easily achieved
-by customizing the *pageSelector* option of *$.endlessPaginate()*, e.g.:
+by customizing the *pageSelector* option of directive *endless-pagination*, e.g.:
 
 .. code-block:: html+django
 
-    <h2>Entries:</h2>
-    <div id="entries">
-        {% include page_template %}
+    <body>
+        <h2>Entries:</h2>
+        <div id="entries" endless-pagination = {'pageSelector': 'div#entries'}>
+            {% include page_template %}
+        </div>
+
+        {% block js %}
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+            <script src="{{ STATIC_URL }}endless_pagination/js/module.endless.js"></script>
+        {% endblock %}
     </div>
 
-    {% block js %}
-        {{ block.super }}
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
-        <script>$.endlessPaginate({pageSelector: 'div#entries'});</script>
-    {% endblock %}
-
 See the :doc:`javascript` for a detailed explanation of how to integrate
-JavaScript and Ajax features in Django Endless Pagination.
+JavaScript and Ajax features in Django Endless Pagination Angular.

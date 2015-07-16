@@ -5,18 +5,14 @@ Repository and bugs
 ~~~~~~~~~~~~~~~~~~~
 
 The **source code** for this app is hosted on
-https://github.com/frankban/django-endless-pagination.
-
-The **Mercurial repository** of this project is hosted on
-https://bitbucket.org/frankban/django-endless-pagination.
+https://github.com/mapeveri/django-endless-pagination-angular.
 
 To file **bugs and requests**, please use
-https://github.com/frankban/django-endless-pagination/issues.
+https://github.com/mapeveri/django-endless-pagination-angular/issues.
 
 Contacts
 ~~~~~~~~
 
-Francesco Banconi
+Martín Peveri
 
-- Email: ``frankban at gmail.com``
-- IRC: ``frankban@freenode``
+- Email: ``martinpeveri at gmail.com``
