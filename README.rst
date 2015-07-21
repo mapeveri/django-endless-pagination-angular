@@ -2,8 +2,6 @@
 Django Endless Pagination Angular
 =================================
 
-**The version 1.0 is in development and testing**
-
 Django Endless Pagination Angular is a fork of the excellent application django-endless-pagination created for Francesco Banconi.
 This application get all code of version 2.0 and update for working in django >= 1.7 in addition to migrate code jquery to angular.js.
 

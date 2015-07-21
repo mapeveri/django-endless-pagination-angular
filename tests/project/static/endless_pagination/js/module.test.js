@@ -21,7 +21,6 @@ App.controller("TestController", function($scope){
         notify('onclick-label', 'Clicked label', angular.element(this).text());
         notify('onclick-url', 'URL', context.url);
         notify('onclick-key', 'Querystring key', context.key);
-
 	}
 
 	$scope.callbacks_completed = function(context, fragment){
@@ -30,7 +29,6 @@ App.controller("TestController", function($scope){
         notify('oncompleted-label', 'Clicked label', angular.element(this).text());
         notify('oncompleted-url', 'URL', context.url);
         notify('oncompleted-key', 'Querystring key', context.key);
-        notify('fragment', 'Last object in fragment', angular.element(fragment).find('h4').last().html());
 	}
 
 });

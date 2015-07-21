@@ -1,7 +1,52 @@
 'use strict';
 var App = angular.module('EndlessPagination', []);
 
-App.directive('endlessPagination', function($http) {
+/*Closest*/
+(function (ELEMENT) {
+    ELEMENT.matches = ELEMENT.matches || ELEMENT.mozMatchesSelector || ELEMENT.msMatchesSelector || ELEMENT.oMatchesSelector || ELEMENT.webkitMatchesSelector;
+    ELEMENT.closest = ELEMENT.closest || function closest(selector) {
+        var element = this;
+        while (element) {
+            if (element.matches(selector)) {
+                break;
+            }
+            element = element.parentElement;
+        }
+        return element;
+    };
+}(Element.prototype));
+
+/* polyfill for Element.prototype.matches */
+if ( !Element.prototype.matches ) {
+    Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector || Element.prototype.mozMatchesSelector;
+    if ( !Element.prototype.matches ) {
+        Element.prototype.matches = function matches( selector ) {
+            var element = this;
+            var matches = ( element.document || element.ownerDocument ).querySelectorAll( selector );
+            var i = 0;
+            while ( matches[i] && matches[i] !== element ) {
+                i++;
+            }
+            return matches[i] ? true : false;
+        }
+    }
+}
+
+/* addDelegatedEventListener */
+Element.prototype.addDelegatedEventListener = function addDelegatedEventListener( type, selector, listener, useCapture, wantsUntrusted ) {
+    this.addEventListener( type, function ( evt ) {
+        var element = evt.target;
+        do {
+            if ( !element.matches || !element.matches( selector ) ) continue;
+            listener.apply( element, arguments );
+            return;
+        } while ( ( element = element.parentNode ) );
+    }, useCapture, wantsUntrusted );
+}
+
+
+
+App.directive('endlessPagination', function($http, $window, $document) {
     return function (scope, element, attrs) {
 
         var defaults = {
@@ -38,19 +83,18 @@ App.directive('endlessPagination', function($http) {
 
         return angular.forEach(element, function() {
             var loadedPages = 1;
-
             // Twitter-style pagination.
-            element.on('click', settings.moreSelector, function() {
-                var link = angular.element(this),
-                html_link = link.get(0),
-                container = link.closest(settings.containerSelector),
-                loading = container.find(settings.loadingSelector);
+            element[0].addDelegatedEventListener('click', settings.moreSelector, function ($event) {
+                var link = angular.element(this);
+                var html_link = link[0];
+                var container = angular.element(html_link.closest(settings.containerSelector));
+                var loading = container.children(settings.loadingSelector);
                 // Avoid multiple Ajax calls.
-                if (loading.is(':visible')) {
-                    return false;
+                if (loading.offsetWidth > 0 && loading.offsetHeight > 0) {
+                    $event.preventDefault();
                 }
-                link.hide();
-                loading.show();
+                link[0].style.display="none";
+                loading[0].style.display="block";
                 var context = getContext(link);
                 //For get function onClick
                 if(typeof settings.onClick == 'string'){
@@ -75,7 +119,7 @@ App.directive('endlessPagination', function($http) {
                             'X-Requested-With': 'XMLHttpRequest'
                         }
                     }).success(function(fragment){
-                        container.before(fragment);
+                        container.parent().append(fragment);
                         container.remove();
                         // Increase the number of loaded pages.
                         loadedPages += 1;
@@ -83,30 +127,30 @@ App.directive('endlessPagination', function($http) {
                         onCompleted.apply(html_link, [context, fragment.trim()]);
                     });
                 }
-                return false;
+                $event.preventDefault();
             });
 
             // On scroll pagination.
             if (settings.paginateOnScroll) {
-                var win = angular.element(window),
-                doc = angular.element(document);
-                win.scroll(function(){
-                    if (doc.height() - win.height() -
-                        win.scrollTop() <= settings.paginateOnScrollMargin) {
+                angular.element($window).bind("scroll", function() {
+                    if ($document[0].body.offsetHeight - $window.innerHeight -
+                        $window.pageYOffset <= settings.paginateOnScrollMargin) {
                         // Do not paginate on scroll if chunks are used and
                         // the current chunk is complete.
                         var chunckSize = settings.paginateOnScrollChunkSize;
                         if (!chunckSize || loadedPages % chunckSize) {
-                            element.find(settings.moreSelector).click();
+                            if(document.querySelector(settings.moreSelector) != null){
+                                document.querySelector(settings.moreSelector).click();
+                            }
                         }
                     }
                 });
             }
 
             // Digg-style pagination.
-            element.on('click', settings.pagesSelector, function() {
+            element[0].addDelegatedEventListener('click', settings.pagesSelector, function ($event) {
                 var link = angular.element(this),
-                html_link = link.get(0),
+                html_link = link[0],
                 context = getContext(link);
                 //For get function onClick
                 if(typeof settings.onClick == 'string'){
@@ -122,7 +166,7 @@ App.directive('endlessPagination', function($http) {
                 }
                 // Fire onClick callback.
                 if (onClick.apply(html_link, [context]) !== false) {
-                    var page_template = link.closest(settings.pageSelector);
+                    var page_template = angular.element(html_link.closest(settings.pageSelector));
                     $http({
                         method: "GET",
                         url: context.url,
@@ -131,11 +175,11 @@ App.directive('endlessPagination', function($http) {
                             'X-Requested-With': 'XMLHttpRequest'
                         }
                     }).success(function(fragment){
-                        angular.element(page_template).html(fragment);
+                        page_template.html(fragment);
                         onCompleted.apply(html_link, [context, fragment.trim()]);
                     });
                 }
-                return false;
+                $event.preventDefault();
             });
         });
     };

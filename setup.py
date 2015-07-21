@@ -53,7 +53,7 @@ with VenvLinkDeleted():
         version=project.get_version(),
         description=project.__doc__,
         long_description=read('README.rst'),
-        author='Francesco Banconi & Martin Peveri',
+        author='Martin Peveri & Francesco Banconi',
         zip_safe=False,
         author_email='martinpeveri@gmail.com',
         url='https://github.com/mapeveri/django-endless-pagination-angular',
