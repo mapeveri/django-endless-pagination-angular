@@ -92,11 +92,6 @@ In the views.py::
 	        template_name = "myapp/index.html"
 	        page_template = "myapp/page_template.html"
 
-	        search = request.GET.get('q')
-
-	        forum = get_object_or_404(Forum, name=forum)
-	        idforum = forum.idforum
-
 	        objects = MyModel.objects.all()
 
 	        data = {
