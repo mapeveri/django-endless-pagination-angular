@@ -67,7 +67,7 @@ def page_list_callable_arrows(number, num_pages):
     return utils.get_page_numbers(number, num_pages, arrows=True)
 
 
-page_list_callable_dummy = lambda number, num_pages: [None]
+def page_list_callable_dummy(number, num_pages): return None
 
 
 class PageListTest(TestCase):
