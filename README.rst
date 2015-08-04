@@ -2,6 +2,9 @@
 Django Endless Pagination Angular
 =================================
 
+.. image:: https://coveralls.io/repos/mapeveri/django-endless-pagination-angular/badge.svg?branch=master&service=github
+	:target: https://coveralls.io/github/mapeveri/django-endless-pagination-angular?branch=master
+
 .. image:: https://travis-ci.org/mapeveri/django-endless-pagination-angular.svg?branch=master
     :target: https://travis-ci.org/mapeveri/django-endless-pagination-angular
 
