@@ -33,10 +33,11 @@ Installation
 1. With pip::
 	pip install django-endless-pagination-angular
 
+
 Quick start
 -----------
 
-1. Add application 'endless_pagination' to INSTALLED_APPS:
+1. Add application 'endless_pagination' to INSTALLED_APPS.
 2. Add this lines in settings.py::
 
 	from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
