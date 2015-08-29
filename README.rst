@@ -20,15 +20,20 @@ This application get all code of version 2.0 and update for working in django >=
 Django Endless Pagination Angular can be used to provide Twitter-style or Digg-style pagination, with optional Ajax support and other features
 like multiple or lazy pagination.
 
-Documentation:
---------------
+Documentation
+-------------
 
 **Documentation** is `avaliable online
 <http://django-endless-pagination-angular.readthedocs.org/>`_, or in the docs
 directory of the project.
 
+Installation
+------------
 
-Quick start:
+Via pip::
+	pip install django-endless-pagination-angular
+
+Quick start
 -----------
 
 1. Add application 'endless_pagination' to INSTALLED_APPS:
@@ -40,8 +45,8 @@ Quick start:
     )
 
 
-Getting started:
-----------------
+Getting started
+---------------
 
 In this example it will be implemented twitter style pagination
 
@@ -77,7 +82,7 @@ Index.html::
 	{% extends "base.html" %}
 
 	{% block content %}
-	  <div class="endless_page_template span12" endless-pagination="{'paginateOnScroll': true}"">
+	  <div class="endless_page_template span12" endless-pagination="{'paginateOnScroll': true}">
 	    {% include myapp/page_template.html %}
 	  </div>
 	{% endblock %}
