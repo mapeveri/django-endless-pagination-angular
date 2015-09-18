@@ -30,9 +30,9 @@ directory of the project.
 Installation
 ------------
 
-With pip:
-	pip install django-endless-pagination-angular
+Via pip::
 
+		pip install django-endless-pagination-angular
 
 Quick start
 -----------
