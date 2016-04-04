@@ -14,8 +14,8 @@ Django Endless Pagination Angular
 .. image:: https://img.shields.io/pypi/dm/django-endless-pagination-angular.svg
    :target: https://pypi.python.org/pypi/django-endless-pagination-angular
 
-Django Endless Pagination Angular is a fork of the excellent application django-endless-pagination created for Francesco Banconi.
-This application get all code of version 2.0 and update for working in django >= 1.7 in addition to migrate code jquery to angular.js.
+Django Endless Pagination Angular is a fork of the excellent application django-endless-pagination created by Francesco Banconi.
+This application get all code of version 2.0 and update for working in django >= 1.7 in addition to migration code jquery to angular.js.
 
 Django Endless Pagination Angular can be used to provide Twitter-style or Digg-style pagination, with optional Ajax support and other features
 like multiple or lazy pagination.
@@ -40,10 +40,10 @@ Quick start
 1. Add application 'endless_pagination' to INSTALLED_APPS.
 2. Add this lines in settings.py::
 
-	from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
-    TEMPLATE_CONTEXT_PROCESSORS += (
-        'django.core.context_processors.request',
-    )
+		from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+	    TEMPLATE_CONTEXT_PROCESSORS += (
+	        'django.core.context_processors.request',
+	    )
 
 
 Getting started
@@ -134,7 +134,7 @@ Visit: 127.0.0.1:800/twitter/
 If you have already declared an angular module all you have to do is inject the module EndlessPagination. As follow::
 
 	'use strict';
-	var App = angular.module('TestApp', ['EndlessPagination']);
+	angular.module('TestApp', ['EndlessPagination']);
 
 This way you will be able to use the directive endless-pagination. For more examples check the official repository:
 
