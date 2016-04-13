@@ -24,7 +24,7 @@ Documentation
 -------------
 
 **Documentation** is `avaliable online
-<http://django-endless-pagination-angular.readthedocs.org/>`_, or in the docs
+<http://django-endless-pagination-angular.readthedocs.org/>`_, or in the **doc*
 directory of the project.
 
 Installation
@@ -40,10 +40,10 @@ Quick start
 1. Add application 'endless_pagination' to INSTALLED_APPS.
 2. Add this lines in settings.py::
 
-		from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
-	    TEMPLATE_CONTEXT_PROCESSORS += (
-	        'django.core.context_processors.request',
-	    )
+			from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+			TEMPLATE_CONTEXT_PROCESSORS += (
+			    'django.core.context_processors.request',
+			)
 
 
 Getting started
