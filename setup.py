@@ -4,8 +4,8 @@ import os
 
 PROJECT_NAME = 'endless_pagination'
 ROOT = os.path.abspath(os.path.dirname(__file__))
-VENV = os.path.join(ROOT, '.venv')
-VENV_LINK = os.path.join(VENV, 'local')
+# VENV = os.path.join(ROOT, '.venv')
+# VENV_LINK = os.path.join(VENV, 'local')
 
 
 project = __import__(PROJECT_NAME)
@@ -37,14 +37,16 @@ class VenvLinkDeleted(object):
 
     def __enter__(self):
         """Remove the link."""
-        if os.path.islink(VENV_LINK):
-            os.remove(VENV_LINK)
-            self.restore_link = True
+        # if os.path.islink(VENV_LINK):
+        #    os.remove(VENV_LINK)
+        #    self.restore_link = True
+        pass
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         """Restore the link."""
-        if self.restore_link:
-            os.symlink(VENV, VENV_LINK)
+        # if self.restore_link:
+        #     os.symlink(VENV, VENV_LINK)
+        pass
 
 
 with VenvLinkDeleted():

@@ -2,8 +2,6 @@
 
 import os
 
-from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
-
 
 PROJECT_NAME = 'project'
 
@@ -25,11 +23,7 @@ SECRET_KEY = os.getenv('ENDLESS_PAGINATION_SECRET_KEY', 'secret')
 SITE_ID = 1
 STATIC_ROOT = os.path.join(PROJECT, 'static')
 STATIC_URL = '/static/'
-TEMPLATE_CONTEXT_PROCESSORS += (
-    'django.core.context_processors.request',
-    PROJECT_NAME + '.context_processors.navbar',
-    PROJECT_NAME + '.context_processors.versions',
-)
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
