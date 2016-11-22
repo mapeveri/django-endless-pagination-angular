@@ -13,6 +13,11 @@ PROJECT = os.path.join(ROOT, PROJECT_NAME)
 DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3'}}
 DEBUG = TEMPLATE_DEBUG = True
 INSTALLED_APPS = (
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
     'django.contrib.staticfiles',
     'endless_pagination',
     PROJECT_NAME,
