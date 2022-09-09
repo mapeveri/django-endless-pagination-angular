@@ -21,7 +21,7 @@ Documentation
 -------------
 
 **Documentation** is `avaliable online
-<http://django-endless-pagination-angular.readthedocs.org/>`_, or in the **doc*
+<http://django-endless-pagination-angular.readthedocs.org/>`_, or in the **doc**
 directory of the project.
 
 Installation
